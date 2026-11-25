@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#F37021">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>ΣΚΛΑΒΕΝΙΤΗΣ | Concept Loyalty & e-Shop App</title>
+    <style>
+        :root {
+            --primary: #F37021;
+            --primary-dark: #d95d14;
+            --bg: #f4f5f7;
+            --card: #ffffff;
+            --text: #222222;
+            --muted: #666666;
+            --success: #16a34a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #e5e7eb; display: flex; justify-content: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 430px; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; position: relative; box-shadow: 0 0 25px rgba(0,0,0,0.12); padding-bottom: 75px; }
+        
+        /* Header */
+        header { background: var(--primary); color: white; padding: 16px 18px; position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(243,112,33,0.3); }
+        header h1 { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; }
+        .badge-concept { background: rgba(255,255,255,0.22); font-size: 10px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+        .points-pill { background: white; color: var(--primary); font-weight: 800; padding: 5px 12px; border-radius: 20px; font-size: 13px; }
+
+        /* Content Sections */
+        .tab-content { display: none; padding: 16px; animation: fadeIn 0.2s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { font-size: 17px; color: var(--text); margin-bottom: 12px; }
+        .card { background: var(--card); border-radius: 14px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+
+        /* Offers & Shop */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .product-card { background: white; border-radius: 12px; padding: 12px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        .product-emoji { font-size: 34px; margin-bottom: 6px; }
+        .product-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+        .product-price { font-size: 16px; font-weight: 800; color: var(--primary); }
+        .product-pts { font-size: 11px; color: var(--success); font-weight: 600; margin-bottom: 8px; }
+        .btn { background: var(--primary); color: white; border: none; padding: 9px 12px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; width: 100%; transition: 0.15s; }
+        .btn:active { transform: scale(0.97); }
+        .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
+
+        /* Cart Bar */
+        .cart-box { background: #fff7ed; border: 1.5px solid var(--primary); border-radius: 12px; padding: 12px; margin-top: 14px; }
+
+        /* Loyalty Card */
+        .loyalty-card { background: linear-gradient(135deg, #F37021, #ff8c42); color: white; border-radius: 18px; padding: 20px; box-shadow: 0 8px 20px rgba(243,112,33,0.35); margin-bottom: 16px; }
+        .qr-box { background: white; padding: 14px; border-radius: 12px; text-align: center; margin: 14px 0; color: #222; }
+        .barcode-lines { height: 48px; background: repeating-linear-gradient(90deg, #111 0px, #111 3px, #fff 3px, #fff 6px, #111 6px, #111 7px, #fff 7px, #fff 11px); margin: 8px auto; width: 85%; }
+
+        /* Digital Receipts (Lidl Plus style) */
+        .receipt-item { border-left: 4px solid var(--primary); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .receipt-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 50; justify-content: center; align-items: center; padding: 16px; }
+        .receipt-paper { background: #fff; width: 100%; max-width: 360px; border-radius: 10px; padding: 20px; font-family: "Courier New", monospace; font-size: 13px; max-height: 85vh; overflow-y: auto; }
+
+        /* Shopping List */
+        .input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        input[type="text"], input[type="email"] { flex: 1; padding: 10px 12px; border: 1.5px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+        input:focus { border-color: var(--primary); }
+        .list-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: white; border-radius: 10px; margin-bottom: 8px; }
+        .list-item.done span { text-decoration: line-through; color: var(--muted); }
+
+        /* Bottom Nav */
+        nav { position: fixed; bottom: 0; width: 100%; max-width: 430px; background: white; display: flex; border-top: 1px solid #e5e7eb; padding: 6px 0; z-index: 20; }
+        nav button { flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; font-size: 11px; color: var(--muted); cursor: pointer; padding: 4px 0; font-weight: 600; }
+        nav button.active { color: var(--primary); }
+        nav button span.icon { font-size: 20px; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <header>
+        <div>
+            <h1>ΣΚΛΑΒΕΝΙΤΗΣ <span class="badge-concept">UI Prototype</span></h1>
+            <small id="header-user" style="font-size: 11px; opacity: 0.9;">Καλώς ήρθατε!</small>
+        </div>
+        <div class="points-pill">⭐ <span id="header-points">150</span> π.</div>
+    </header>
+
+    <!-- TAB 1: OFFERS & E-SHOP -->
+    <section id="tab-shop" class="tab-content active">
+        <h2>🔥 Προσφορές Εβδομάδας & e-Shop</h2>
+        <div class="product-grid" id="product-list"></div>
+
+        <div class="cart-box">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <strong>🛒 Καλάθι (<span id="cart-count">0</span> είδη)</strong>
+                <strong style="color:var(--primary);"><span id="cart-total">0.00</span> €</strong>
+            </div>
+            <p style="font-size:12px; color:var(--success); margin-bottom:10px;">Θα κερδίσετε: +<span id="cart-points">0</span> πόντους επιβράβευσης</p>
+            <button class="btn" onclick="checkout()">Ολοκλήρωση Αγοράς & Έκδοση Απόδειξης</button>
+        </div>
+    </section>
+
+    <!-- TAB 2: LOYALTY CARD & DIGITAL RECEIPTS -->
+    <section id="tab-card" class="tab-content">
+        <h2>💳 Η Ψηφιακή μου Κάρτα</h2>
+        <div class="loyalty-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:800; font-size:16px;">ΣΚΛΑΒΕΝΙΤΗΣ Plus</span>
+                <span style="font-size:12px; background:rgba(0,0,0,0.2); padding:3px 8px; border-radius:8px;">Ενεργή</span>
+            </div>
+            <div class="qr-box">
+                <div class="barcode-lines"></div>
+                <strong id="card-number" style="letter-spacing:2px; font-size:14px;">2940 8812 4509</strong>
+                <p style="font-size:11px; color:#666; margin-top:4px;">Σκανάρετε στο ταμείο για πόντους & προσφορές</p>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:13px;">
+                <span id="card-holder">Επισκέπτης Μέλος</span>
+                <strong>Υπόλοιπο: <span id="card-points">150</span> πόντοι</strong>
+            </div>
+        </div>
+
+        <h2>🧾 Ψηφιακές Αποδείξεις Αγορών</h2>
+        <div id="receipts-list"></div>
+    </section>
+
+    <!-- TAB 3: SMART SHOPPING LIST -->
+    <section id="tab-list" class="tab-content">
+        <h2>📝 Έξυπνη Λίστα Αγορών</h2>
+        <div class="input-row">
+            <input type="text" id="list-input" placeholder="Π.χ. Γάλα, Ψωμί, Μήλα..." onkeypress="if(event.key==='Enter') addShoppingItem()">
+            <button class="btn" style="width:auto; padding:0 16px;" onclick="addShoppingItem()">+</button>
+        </div>
+        <div id="shopping-list-items"></div>
+    </section>
+
+    <!-- TAB 4: USER PROFILE -->
+    <section id="tab-profile" class="tab-content">
+        <h2>👤 Ο Λογαριασμός μου</h2>
+        <div class="card">
+            <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">Δημιουργήστε ή ενημερώστε το προφίλ σας για αποθήκευση πόντων και ψηφιακών αποδείξεων.</p>
+            <label style="font-size:12px; font-weight:700;">Ονοματεπώνυμο</label>
+            <input type="text" id="prof-name" placeholder="Π.χ. Μαρία Παπαδοπούλου" style="width:100%; margin:4px 0 10px;">
+            <label style="font-size:12px; font-weight:700;">Email</label>
+            <input type="email" id="prof-email" placeholder="name@example.com" style="width:100%; margin:4px 0 14px;">
+            <button class="btn" onclick="saveProfile()">Αποθήκευση Προφίλ</button>
+        </div>
+        <div class="card" style="font-size:12px; color:var(--muted);">
+            <strong>Σχετικά με την εφαρμογή:</strong><br>
+            UI/UX Concept Prototype σχεδιασμένο με HTML5, CSS3 & Vanilla JavaScript (LocalStorage persistence).
+        </div>
+    </section>
+
+    <!-- RECEIPT DETAIL MODAL -->
+    <div id="receipt-modal" class="receipt-modal" onclick="this.style.display='none'">
+        <div class="receipt-paper" onclick="event.stopPropagation()" id="receipt-detail-body"></div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav>
+        <button class="active" onclick="switchTab('shop', this)"><span class="icon">🏷️</span>Προσφορές</button>
