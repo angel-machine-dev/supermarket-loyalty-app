@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#F37021">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>ΣΚΛΑΒΕΝΙΤΗΣ | Concept Loyalty & e-Shop App</title>
+    <title>PocketSuperMarket | Loyalty & e-Shop App</title>
     <style>
         :root { --primary: #F37021; --bg: #f4f5f7; --card: #ffffff; --text: #222222; --muted: #666666; --success: #16a34a; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -47,7 +47,7 @@
 <div class="app-container">
     <header>
         <div>
-            <h1>ΣΚΛΑΒΕΝΙΤΗΣ <span class="badge-concept">UI Prototype</span></h1>
+            <h1>PocketSuperMarket <span class="badge-concept">App</span></h1>
             <small id="header-user" style="font-size: 11px;">Καλώς ήρθατε!</small>
         </div>
         <div class="points-pill">⭐ <span id="header-points">150</span> π.</div>
@@ -68,7 +68,7 @@
         <h2>💳 Η Ψηφιακή μου Κάρτα</h2>
         <div class="loyalty-card">
             <div style="display:flex; justify-content:space-between;">
-                <span style="font-weight:800;">ΣΚΛΑΒΕΝΙΤΗΣ Plus</span>
+                <span style="font-weight:800;">PocketSuperMarket Plus</span>
                 <span style="font-size:12px; background:rgba(0,0,0,0.2); padding:2px 8px; border-radius:8px;">Ενεργή</span>
             </div>
             <div class="qr-box">
@@ -151,7 +151,7 @@
     function openReceipt(idx) {
         const r = state.receipts[idx];
         const itemsHtml = r.items.map(i => `<div style="display:flex; justify-content:space-between; margin:4px 0;"><span>${i.name}</span><span>${i.price.toFixed(2)}€</span></div>`).join("");
-        document.getElementById("receipt-detail-body").innerHTML = `<div style="text-align:center; border-bottom:1px dashed #333; padding-bottom:10px; margin-bottom:10px;"><strong>ΕΛΛΗΝΙΚΕΣ ΥΠΕΡΑΓΟΡΕΣ ΣΚΛΑΒΕΝΙΤΗΣ</strong><br><small>${r.store}</small><br><small>${r.date} | #${r.id}</small></div>${itemsHtml}<div style="border-top:1px dashed #333; margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-weight:bold;"><span>ΣΥΝΟΛΟ</span><span>${r.total.toFixed(2)} €</span></div><p style="text-align:center; color:#16a34a; margin-top:8px; font-weight:bold;">⭐ +${r.ptsEarned} πόντοι</p><button class="btn" style="margin-top:14px; font-family:sans-serif;" onclick="document.getElementById('receipt-modal').style.display='none'">Κλείσιμο</button>`;
+        document.getElementById("receipt-detail-body").innerHTML = `<div style="text-align:center; border-bottom:1px dashed #333; padding-bottom:10px; margin-bottom:10px;"><strong>PocketSuperMarket A.E.</strong><br><small>${r.store}</small><br><small>${r.date} | #${r.id}</small></div>${itemsHtml}<div style="border-top:1px dashed #333; margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-weight:bold;"><span>ΣΥΝΟΛΟ</span><span>${r.total.toFixed(2)} €</span></div><p style="text-align:center; color:#16a34a; margin-top:8px; font-weight:bold;">⭐ +${r.ptsEarned} πόντοι</p><button class="btn" style="margin-top:14px; font-family:sans-serif;" onclick="document.getElementById('receipt-modal').style.display='none'">Κλείσιμο</button>`;
         document.getElementById("receipt-modal").style.display = "flex";
     }
     function addShoppingItem() {
